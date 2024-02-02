@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3D Rotating Square in AR using Three.js</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    * {
+      margin: 0;
+    }
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+    h2 {
+      margin: 0 auto 0 auto;
+    }
+    #container {
+      margin: 0 auto 0 auto;
+      z-index: -1;
+      width: 640px;
+      height: 480px;
+      background-color: #99b907;
+    }
+  </style>
+</head>
+<body>
+  <center><h2>3D Rotating Square in AR with Three.js</h2></center>
+  <div id="container"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script type="text/javascript">
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(640, 480);
+    document.getElementById('container').appendChild(renderer.domElement);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, 640 / 480, 0.1, 1000);
+    camera.position.z = 5;
+
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    var cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    var animating = false;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (animating) {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+      }
+      renderer.render(scene, camera);
+    }
+
+    function addMouseHandler() {
+      var domEle = renderer.domElement;
+      domEle.addEventListener("mouseup", onMouseUp, false);
+    }
+
+    function onMouseUp(event) {
+      event.preventDefault();
+      animating = !animating;
+    }
+
+    animate();
+    addMouseHandler();
+  </script>
+</body>
+</html>
